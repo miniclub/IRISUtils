@@ -1,0 +1,47 @@
+ROUTINE zInstProc
+ #include %occStatus
+ #define InfoLogRoutine(%msg,%sc)   WriteLog("INFO",(%msg),(%sc))
+ #define ErrorLogRoutine(%msg,%sc)   WriteLog("ERR",(%msg),(%sc))
+Install() public { 
+ new $namespace
+ set $namespace="%SYS"
+ 
+ try {
+	 do $$$InfoLogRoutine("リモートプロシジャーコールのインストールを行います","")
+	 set itm("%ZComm.Common.ClientBase.CLS")=""
+	 set itm("%ZComm.Common.ServerBase.CLS")=""
+	 set itm("%ZComm.REST.CLS")=""
+	 set itm("%ZComm.Transfer.Client.CLS")=""
+	 set itm("%ZComm.Transfer.REST.CLS")=""
+	 set itm("%ZComm.Include.INC")=""
+	 do $$$InfoLogRoutine("リモートプロシジャーコールの定義をロードします","")
+	 set ret=$SYSTEM.OBJ.Load(%file,"cf",,,,.itm)
+ 	 if ('ret) {
+		 do $$$ErrorLogRoutine("ロードできませんでした",ret)
+	     quit
+ 	 }
+	// ウェブアプリケーション作成
+    set ret=##class(%ZComm.REST).CreateWebApp()
+ 	 if ('ret) {
+		 do $$$ErrorLogRoutine("メソッド呼び出し用ウェブアプリケーションが作成できませんでした",ret)
+	     quit
+ 	 }
+	// ウェブアプリケーション作成
+    set ret=##class(%ZComm.Transfer.REST).CreateWebApp()
+ 	 if ('ret) {
+		 do $$$ErrorLogRoutine("グローバル転送用ウェブアプリケーションが作成できませんでした",ret)
+	     quit
+ 	 }
+ } catch err {
+	 do $$$ErrorLogRoutine("インストール中にエラーが発生しました",err.AsStatus())
+	 set ret=err.AsStatus()
+ } 
+ quit ret
+}
+
+WriteLog(sev,txt,sc="") public {
+    write $zdatetime($horolog,3)_" "_$job_" "_(sev)_" "_(txt),!
+    if sc'=""&&(sc'=$$$OK) {
+       write $zdatetime($horolog,3)_" "_$job_" "_(sev)_" "_($SYSTEM.Status.GetErrorText(sc)),!
+    }
+}
