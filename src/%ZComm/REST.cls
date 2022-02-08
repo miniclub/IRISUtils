@@ -20,7 +20,7 @@ ClassMethod ExecMethod(module As %String, method As %String) As %Status
 		// インターフェースモジュールチェック
 		set class=$get(^%ZModule.Rest(module,method))
 		if class="" set ret=$$$ERROR(5001,"メソッド"_method_"がモジュール"_module_"に見つかりません") quit
-
+		set ns=$lg(class,1),class=$lg(class,2)
 		set ret=$classmethod(class,"ServerDispatcher",method)
 	} catch {
 		set ret=$$$ERROR(5002,$zerror)

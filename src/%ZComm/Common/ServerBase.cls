@@ -79,7 +79,8 @@ ClassMethod ClientGenerator() [ CodeMode = objectgenerator ]
 		do gencls.Methods.Insert(genmtd)
 		
 		// サーバにて呼び出されるようグローバルに登録
-		set ^%ZModule.Rest(%parameter("InterfaceModule"),method.Name)=%class.Name
+		// $namespaceを追加
+		set ^%ZModule.Rest(%parameter("InterfaceModule"),method.Name)=$lb($select($extract(%class.Name)="%":"%SYS",1:$namespace),%class.Name)
 	}
 	set ret=gencls.%Save()
 	quit:$$$ISERR(ret) ret
