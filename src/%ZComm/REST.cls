@@ -13,6 +13,7 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 /// メソッドの実行
 ClassMethod ExecMethod(module As %String, method As %String) As %Status
 {
+	new $namespace
 	set ret=$$$OK
 	try {
 		set %response.ContentType = "application/json"
@@ -21,6 +22,7 @@ ClassMethod ExecMethod(module As %String, method As %String) As %Status
 		set class=$get(^%ZModule.Rest(module,method))
 		if class="" set ret=$$$ERROR(5001,"メソッド"_method_"がモジュール"_module_"に見つかりません") quit
 		set ns=$lg(class,1),class=$lg(class,2)
+		set:ns'=$namespace $namespace=ns
 		set ret=$classmethod(class,"ServerDispatcher",method)
 	} catch {
 		set ret=$$$ERROR(5002,$zerror)
