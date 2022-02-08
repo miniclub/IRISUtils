@@ -49,14 +49,9 @@ ClassMethod RegistWebApp(name as %String, ByRef spec) as %Status
 	if ('##class(Security.Applications).Exists(name)) {
 		write !,"Creating Web application"""_name_"""..."
 		set st=##class(Security.Applications).Create(name,.spec)
-		write !,"Creating Web application"""_name_"""..."
-
-
 	} else {
 		write !,"Updating Web application"""_name_"""..."
 		set st=##class(Security.Applications).Modify(name,.spec)
-		write !,"Web application"""_name_""" is updated."
-		
 	}
 	quit st
 }
