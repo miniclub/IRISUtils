@@ -26,12 +26,6 @@ Install() public {
 		 do $$$ErrorLogRoutine("メソッド呼び出し用ウェブアプリケーションが作成できませんでした",ret)
 	     quit
  	 }
-	// ウェブアプリケーション作成
-    set ret=##class(%ZComm.Transfer.REST).CreateWebApp()
- 	 if ('ret) {
-		 do $$$ErrorLogRoutine("グローバル転送用ウェブアプリケーションが作成できませんでした",ret)
-	     quit
- 	 }
  } catch err {
 	 do $$$ErrorLogRoutine("インストール中にエラーが発生しました",err.AsStatus())
 	 set ret=err.AsStatus()

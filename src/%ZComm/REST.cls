@@ -37,7 +37,27 @@ ClassMethod CreateWebApp() As %Status
     set cspProperties("MatchRoles")=":%All"
     set cspProperties("IsNameSpaceDefault") = $$$NO
     set cspProperties("DispatchClass") = "%ZComm.REST"
-    quit ##class(%ZModule.Install).RegistWebApp("/rpc", .cspProperties)
+    quit ..RegistWebApp("/rpc", .cspProperties)
 }
 
+/// Web	アプリケーションの登録
+ClassMethod RegistWebApp(name as %String, ByRef spec) as %Status
+{
+	new $NAMESPACE
+	set $namespace="%SYS"
+	set st = $$$OK
+	if ('##class(Security.Applications).Exists(name)) {
+		write !,"Creating Web application"""_name_"""..."
+		set st=##class(Security.Applications).Create(name,.spec)
+		write !,"Creating Web application"""_name_"""..."
+
+
+	} else {
+		write !,"Updating Web application"""_name_"""..."
+		set st=##class(Security.Applications).Modify(name,.spec)
+		write !,"Web application"""_name_""" is updated."
+		
+	}
+
+}
 }
