@@ -58,6 +58,6 @@ ClassMethod RegistWebApp(name as %String, ByRef spec) as %Status
 		write !,"Web application"""_name_""" is updated."
 		
 	}
-
+	quit st
 }
 }
