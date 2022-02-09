@@ -11,7 +11,7 @@ Class %ZComm.Common.ClientBase Extends %RegisteredObject
 Parameter DefaultHttpPort = 52773;
 
 /// デフォルトリトライ回数
-Parameter DefaultRetry = 3;
+Parameter DefaultRetry = 2;
 
 /// タイムアウト設定
 Property Timeout As %Integer [ Calculated ];
