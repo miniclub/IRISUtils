@@ -39,8 +39,6 @@ ClassMethod ClientGenerator() [ CodeMode = objectgenerator ]
 		// ClassMethodでない場合、スキップ
 		continue:'method.ClassMethod
 		
-		set x=a
-		
 		// メソッドの生成
 		set genmtd=##class(%Dictionary.MethodDefinition).%New()
 		set genmtd.Name=method.Name,genmtd.FormalSpec=method.FormalSpec,genmtd.ReturnType=method.ReturnType
